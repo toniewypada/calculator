@@ -5,9 +5,12 @@ import styled from "styled-components";
 import Calculator from "./components/Calculator";
 
 const Container = styled.div`
+  background: #023C40;
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  width: 100vw;
+  align-items: center;
+  justify-content: center;
 `;
 
 function App() {
