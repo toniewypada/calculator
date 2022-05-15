@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ElementType } from "react";
 import styled from "styled-components";
 
 export enum ButtonType{
@@ -6,12 +6,12 @@ export enum ButtonType{
     Operation
 }
 
-type ButtonProps = {
+type ButtonProps = React.HTMLProps<HTMLDivElement> &  {
   height?: number;
   label: string;
   position?: [x: number, y: number];
-  type?: ButtonType;
-  width?: number;
+  buttonType?: ButtonType;
+  width?: number; 
 };
 
 const StyledButton = styled.div`
@@ -24,7 +24,7 @@ const StyledButton = styled.div`
   align-content: center;
 `;
 
-const Button: React.FC<ButtonProps> = ({ type = ButtonType.Operation, label, position, width, height }) => {
+const Button: React.FC<ButtonProps> = ({ buttonType = ButtonType.Operation, label, position, width, height, onClick }) => {
   const styles: React.CSSProperties = {};
   if (position) {
     styles.gridColumnStart = position[0];
@@ -37,13 +37,13 @@ const Button: React.FC<ButtonProps> = ({ type = ButtonType.Operation, label, pos
     styles.gridRowEnd = `span ${height}`;
   }
 
-  if(type === ButtonType.Number){
+  if(buttonType === ButtonType.Number){
       styles.color = '#fff';
       styles.background = '#658E9C';
 
   }
 
-  return <StyledButton style={styles}>{label}</StyledButton>;
+  return <StyledButton onClick={onClick} style={styles}>{label}</StyledButton>;
 };
 
 export default Button;

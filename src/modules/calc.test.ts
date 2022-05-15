@@ -25,6 +25,15 @@ test('derives displayValue of 0 with no imputs', () =>{
   expect(state.displayValue).toEqual(0);
 })
 
+test('derives displayValue upon first numerical imput', () =>{
+  const inputs: Array<CalcInput> = [
+    { type: InputType.Numerical, value: 1 },
+  ];
+
+  const state = Calc.getState(inputs);
+  expect(state.displayValue).toEqual(1);
+})
+
 test("derives displayValue upon new numerical input", () => {
   const inputs: Array<CalcInput> = [
     { type: InputType.Numerical, value: 1 },
@@ -34,6 +43,17 @@ test("derives displayValue upon new numerical input", () => {
   ];
   const state = Calc.getState(inputs);
   expect(state.displayValue).toEqual(3);
+});
+
+
+test("derives displayValue upon operator input", () => {
+  const inputs: Array<CalcInput> = [
+    { type: InputType.Numerical, value: 1 },
+    { type: InputType.Numerical, value: 2 },
+    { type: InputType.Operator, operator: OperatorType.Add },
+  ];
+  const state = Calc.getState(inputs);
+  expect(state.displayValue).toEqual(12);
 });
 
 test("derives final state", () => {

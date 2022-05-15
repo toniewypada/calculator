@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { ButtonType } from "./Button";
 import Button from "./Button";
+import Calc, { CalcInput, InputType, OperatorType } from "../modules/calc";
 
 const Container = styled.div``;
 
@@ -23,26 +24,112 @@ const Display = styled.div`
 `;
 
 const Calculator: React.FC<{}> = () => {
+  const [inputs, setInputs] = useState<Array<CalcInput>>([]);
+  const state = Calc.getState(inputs);
+
+  const appendImput = (input: CalcInput): void => {
+    setInputs((prev) => [...prev, input]);
+  };
+
+  const handleNumerical = (value: number) => () => {
+    appendImput({ type: InputType.Numerical, value });
+  };
+
+  const handleOperator = (operator: OperatorType) => () =>
+    appendImput({ type: InputType.Operator, operator });
+
+  const handleAllClear = () => setInputs([]);
+
+  const handleBackButton = () => setInputs((prev) => prev.slice(0, -1));
+
   return (
     <Container>
       <Grid>
-        <Display>42</Display>
-        <Button label="AC" position={[1, 2]} width={2} />
-        <Button label="Back!" position={[3, 2]} width={2} />
-        <Button label="+" position={[4, 3]} />
-        <Button label="-" position={[4, 4]} />
-        <Button label="=" position={[4, 5]} height={2} />
-        <Button type={ButtonType.Number} label="9" position={[3, 3]} />
-        <Button type={ButtonType.Number} label="8" position={[2, 3]} />
-        <Button type={ButtonType.Number} label="7" position={[1, 3]} />
-        <Button type={ButtonType.Number} label="6" position={[3, 4]} />
-        <Button type={ButtonType.Number} label="5" position={[2, 4]} />
-        <Button type={ButtonType.Number} label="4" position={[1, 4]} />
-        <Button type={ButtonType.Number} label="3" position={[3, 5]} />
-        <Button type={ButtonType.Number} label="2" position={[2, 5]} />
-        <Button type={ButtonType.Number} label="1" position={[1, 5]} />
+        <Display>{state.displayValue}</Display>
         <Button
-          type={ButtonType.Number}
+          label="AC"
+          position={[1, 2]}
+          width={2}
+          onClick={handleAllClear}
+        />
+        <Button
+          label="Back!"
+          position={[3, 2]}
+          width={2}
+          onClick={handleBackButton}
+        />
+        <Button
+          label="+"
+          position={[4, 3]}
+          onClick={handleOperator(OperatorType.Add)}
+        />
+        <Button
+          label="-"
+          position={[4, 4]}
+          onClick={handleOperator(OperatorType.Subtract)}
+        />
+        <Button
+          label="="
+          position={[4, 5]}
+          height={2}
+          onClick={handleOperator(OperatorType.Equals)}
+        />
+        <Button
+          buttonType={ButtonType.Number}
+          label="9"
+          position={[3, 3]}
+          onClick={handleNumerical(9)}
+        />
+        <Button
+          buttonType={ButtonType.Number}
+          label="8"
+          position={[2, 3]}
+          onClick={handleNumerical(8)}
+        />
+        <Button
+          buttonType={ButtonType.Number}
+          label="7"
+          position={[1, 3]}
+          onClick={handleNumerical(7)}
+        />
+        <Button
+          buttonType={ButtonType.Number}
+          label="6"
+          position={[3, 4]}
+          onClick={handleNumerical(6)}
+        />
+        <Button
+          buttonType={ButtonType.Number}
+          label="5"
+          position={[2, 4]}
+          onClick={handleNumerical(5)}
+        />
+        <Button
+          buttonType={ButtonType.Number}
+          label="4"
+          position={[1, 4]}
+          onClick={handleNumerical(4)}
+        />
+        <Button
+          buttonType={ButtonType.Number}
+          label="3"
+          position={[3, 5]}
+          onClick={handleNumerical(3)}
+        />
+        <Button
+          buttonType={ButtonType.Number}
+          label="2"
+          position={[2, 5]}
+          onClick={handleNumerical(2)}
+        />
+        <Button
+          buttonType={ButtonType.Number}
+          label="1"
+          position={[1, 5]}
+          onClick={handleNumerical(1)}
+        />
+        <Button
+          buttonType={ButtonType.Number}
           label="0"
           position={[1, 6]}
           width={3}
